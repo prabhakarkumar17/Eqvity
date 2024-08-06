@@ -1,0 +1,9 @@
+1. Atleast 4 projects.
+2. Good LinkedIn profile
+3. Good GitHub account
+4. Atleast 3 blockchain network knowledge
+	Ethereum
+	Hyperledger	
+		Fabric
+		Besu
+	Corda
