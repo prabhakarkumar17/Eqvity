@@ -1,0 +1,30 @@
+Steps we have followed to connect backend with blockchain network then with smart contract by the help of web3.js library :-
+
+1. Created node/npm based project - npm init
+
+2. Created server.js file
+
+3. Added packages - npm install express
+		    npm install web3
+		    npm install hardhat
+
+4. Started server with the help of express framework - app.listen(8000)
+
+5. Created hardhat project - Ethereum dev environment - npx hardhat init
+
+6. Started our local blockchain - npx hardhat node
+
+7. Collected smart contract's address, abi and provider URL
+
+8. Created instance of web3 - 
+		const { Web3 } = require('web3');
+		const web3 = new Web3(providerURL);
+
+9. Connected our server.js file to blockchain network - const web3 = new Web3(providerURL);
+
+10. Connected our server.js file to smart contract - 
+	const contract = new web3.eth.Contract(abi, contractAddress)
+
+11. Called our smart contract's method
+	contract.methods.getName().call()
+	contract.methods.setName("Virat Kohli").send();
