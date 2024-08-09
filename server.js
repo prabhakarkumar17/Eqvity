@@ -78,8 +78,8 @@ const web3 = new Web3(providerURL); //connected server.js file to blockchain net
 
 const contract = new web3.eth.Contract(contractAbi, contractAddress); //connected our server.js file with smart contract
 
-async function getNameFromContract(){
-    const result = await contract.methods.getName().call();
+function getNameFromContract(){
+    const result = contract.methods.getName().call();
     console.log(result);
 }
 getNameFromContract();

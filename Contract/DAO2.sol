@@ -22,7 +22,6 @@ contract DAO is Ownable {
     string public tokenImage; // Token image URL or IPFS hash
     uint256 public totalSupply;
     uint256 public memberJoinAmount;
-    address[] public members;
     mapping(address => uint256) public memberTokens;
     mapping(address => bool) public isMember;
     mapping(address => uint256) public memberVotes;
@@ -31,9 +30,9 @@ contract DAO is Ownable {
     uint256 public votingPowerThreshold = 51; // 51%
 
     struct Proposal {
-        string description;
-        address proposer;
-        uint256 voteCount;
+        string description; //description about the proposal
+        address proposer; //address of member
+        uint256 voteCount; //
         mapping(address => bool) votes;
         bool executed;
     }
@@ -88,10 +87,18 @@ contract DAO is Ownable {
         require(!proposal.votes[msg.sender], "Already voted");
 
         if (support) {
-            proposal.voteCount = proposal.voteCount.add(memberTokens[msg.sender]);
+            proposal.voteCount = proposal.voteCount.add(1);
+            //proposal.voteCount = proposal.voteCount.add(memberTokens[msg.sender]);
         }
 
         proposal.votes[msg.sender] = true;
+    }
+
+    function checkResult(uint proposalId) returns(string memory){
+        Proposal proposal = proposals[proposalId - 1];
+        require(proposal.voteCount > members.length+1, "Majority is not in favour");
+
+        return "Proposal got passed with majority in favour";
     }
 
     function executeProposal(uint256 proposalId) public {
