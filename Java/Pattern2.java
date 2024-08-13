@@ -1,4 +1,5 @@
 /**
+ * Right angle triangle - Right aligned
  *                   *
  *                  **
  *                 ***
