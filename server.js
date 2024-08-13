@@ -70,8 +70,11 @@ const contractAbi = [
 		"type": "function"
 	}
 ]
-const contractAddress = "0x5fbdb2315678afecb367f032d93f642f64180aa3";
+const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 const providerURL = "http://127.0.0.1:8545/";
+
+const publicKey = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266";
+const privateKey = "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
 
 const {Web3} = require('web3')
 const web3 = new Web3(providerURL); //connected server.js file to blockchain network
@@ -84,14 +87,41 @@ function getNameFromContract(){
 }
 getNameFromContract();
 
-/* getNameFromContract = async() => { //Arrow function
-    const result = await contract.methods.getName().call();
-    return result;
-} */
-
 app.get('/',(req, res) => {
     // const result = getNameFromContract();
     // console.log(getNameFromContract());
+})
+
+app.get('/setName', async(req, res) => {
+	const status = await contract.methods.setName("Ruturaj Gaikwad").send({
+		from: publicKey
+	})
+
+	const result = await contract.methods.getName().call();
+	console.log("Name of Player is ",result)
+	
+	
+})
+
+app.post('/joinDao', async(req, res) => {
+
+	const tx = {
+		to: contractAddress,
+		value: 0x0,
+		gasLimit: 3000000,
+		gasPrice: '0x09184e72a000',
+		nonce: await web3.eth.getTransactionCount(publicKey),
+		data: await contract.methods.joinDAO()
+	}
+	const signedTx = await web3.eth.signTransaction(tx, privateKey);
+
+	web3.eth.sendSignedTransaction(signedTx.raw, function(error, hash){
+		if(error){
+			console.log(error)
+		}else{
+			console.log(hash)
+		}
+	})
 })
 
 app.listen(8080, (req, res) => {
